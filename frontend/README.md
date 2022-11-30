@@ -1,3 +1,12 @@
+# React-Jobly Project
+Create a frontend for the provided Jobly backend.
+
+### To Run
+1) run the command "npm install" to install all necessary packages
+2) run the command "npm start" to start the react server on port 3000
+
+------------------------------------------------------------------------
+
 # Getting Started with Create React App
 
 This project was bootstrapped with [Create React App](https://github.com/facebook/create-react-app).
@@ -11,7 +20,7 @@ In the project directory, you can run:
 Runs the app in the development mode.\
 Open [http://localhost:3000](http://localhost:3000) to view it in your browser.
 
-The page will reload when you make changes.\
+The page will reload when you make changes.\ 
 You may also see any lint errors in the console.
 
 ### `npm test`

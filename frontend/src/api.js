@@ -49,6 +49,12 @@ class JoblyApi {
     return res.companies;
   }
 
+  /** Get all companies matching search term */
+  static async searchCompanies(term) {
+    let res = await this.request(`companies?name=${term}`);
+    return res.companies;
+  }
+
   /** Get details on a job by id */
 
   static async getJob(id) {
@@ -68,3 +74,5 @@ class JoblyApi {
 JoblyApi.token = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VybmFtZ" +
   "SI6InRlc3R1c2VyIiwiaXNBZG1pbiI6ZmFsc2UsImlhdCI6MTU5ODE1OTI1OX0." +
   "FtrMwBQwe6Ue-glIFgz_Nf8XxRT2YecFCiSpYL0fCXc";
+
+export default JoblyApi;

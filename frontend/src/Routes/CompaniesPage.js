@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState, useContext } from 'react';
 import Container from 'react-bootstrap/Container';
 import Row from 'react-bootstrap/Row';
 import Col from 'react-bootstrap/Col';
@@ -7,6 +7,8 @@ import JoblyApi from '../api';
 import CompanyCard from './Components/CompanyCard';
 import CompanySearchBar from './Components/CompanySearchBar';
 import { v4 as uuid } from 'uuid';
+import { UserContext } from '../ContextCreator';
+import { useNavigate } from 'react-router-dom';
 
 function CompaniesPage() {
 
@@ -14,14 +16,19 @@ function CompaniesPage() {
 
     const [companies, setCompanies] = useState(null);
 
+    const user = useContext(UserContext);
+
+    const navigate = useNavigate();
+
     /** Grab All Companies from API. If companies already exist do nothing */
     useEffect(() => {
         async function getCompanies() {
             const data = await JoblyApi.getAllCompanies();
             setCompanies(data);
         }
+        if (!user) navigate('/signup');
         if (!companies) getCompanies();
-    }, [companies, setCompanies]);
+    }, [user, companies, navigate, setCompanies]);
 
     /** Request all companies with searchTerm. If searchTerm is null do nothing */
     useEffect(() => {
@@ -38,7 +45,7 @@ function CompaniesPage() {
         setCompanies(null);
     }
 
-    return (
+    if (user) return (
         <Container id="companies_page" className="mt-5">
             <Row className="justify-content-center mb-3">
                 <Col className="text-center">
@@ -60,6 +67,8 @@ function CompaniesPage() {
             </Row>
         </Container>
     )
+
+    return null;
 }
 
 export default CompaniesPage;

@@ -10,6 +10,7 @@ import UserFormPage from './Routes/UserFormPage';
 import NoMatchPage from './Routes/NoMatchPage';
 import NavBar from './NavBar.js';
 import JoblyApi from './api';
+import { UserContext } from './ContextCreator';
 
 function App() {
 
@@ -34,29 +35,30 @@ function App() {
 
   }, [token, setCurrUser]);
 
-  function loggout() {
+  function logout() {
     setToken(null);
+    setCurrUser(null);
   }
-
-  if (currUser) console.log("user: ", currUser);
 
   return (
     <div className="App">
       <BrowserRouter>
-        <NavBar loggout={loggout} />
-        <Routes>
-          <Route exact path="/" element={<Homepage />} />
-          <Route exact path="/companies" element={<CompaniesPage />} />
-          <Route path="/companies/:handle" element={<CompanyDetailsPage />} />
-          <Route exact path="/jobs" element={<JobsPage />} />
-          <Route path="/jobs/:id" element={<JobDetailsPage />} />
-          <Route exact path="/profile" element={<ProfilePage />} />
-          <Route exact path="/login" element={<UserFormPage type="login" login={setToken} />} />
-          <Route exact path="/signup" element={<UserFormPage type="signup" signup={setToken} />} />
-          <Route path="*" element={<NoMatchPage />} />
-        </Routes>
+        <UserContext.Provider value={currUser}>
+          <NavBar logout={logout} />
+          <Routes>
+            <Route exact path="/" element={<Homepage />} />
+            <Route exact path="/companies" element={<CompaniesPage />} />
+            <Route path="/companies/:handle" element={<CompanyDetailsPage />} />
+            <Route exact path="/jobs" element={<JobsPage />} />
+            <Route path="/jobs/:id" element={<JobDetailsPage />} />
+            <Route exact path="/profile" element={<ProfilePage />} />
+            <Route exact path="/login" element={<UserFormPage type="login" login={setToken} />} />
+            <Route exact path="/signup" element={<UserFormPage type="signup" signup={setToken} />} />
+            <Route path="*" element={<NoMatchPage />} />
+          </Routes>
+        </UserContext.Provider>
       </BrowserRouter>
-    </div>
+    </div >
   );
 }
 

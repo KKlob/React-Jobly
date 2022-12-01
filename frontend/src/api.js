@@ -80,6 +80,12 @@ class JoblyApi {
     return res.token;
   }
 
+  /** Update user info */
+  static async updateUser(data, username) {
+    let res = await this.request(`users/${username}`, data, 'patch');
+    return res.user;
+  }
+
   /** Retrieves User Object */
   static async getUser(username) {
     let res = await this.request(`users/${username}`);

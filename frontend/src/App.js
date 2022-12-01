@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { BrowserRouter, Route, Routes } from 'react-router-dom';
+import { BrowserRouter, redirect, Route, Routes } from 'react-router-dom';
 import Homepage from './Routes/Homepage';
 import CompaniesPage from './Routes/CompaniesPage';
 import CompanyDetailsPage from './Routes/CompanyDetailsPage';
@@ -18,12 +18,15 @@ function App() {
 
   const [currUser, setCurrUser] = useState(null);
 
+  if (currUser) console.log(currUser);
+
   useEffect(() => {
     async function getUser() {
       JoblyApi.token = token.userToken;
       try {
         const user = await JoblyApi.getUser(token.username);
         user.token = token.userToken;
+        localStorage.setItem('user', user)
         setCurrUser(user);
 
       } catch (error) {
@@ -32,12 +35,23 @@ function App() {
     }
 
     if (token) getUser();
+    if (!token && localStorage.getItem('user')) {
+      setToken(localStorage.getItem('user').token);
+    }
 
-  }, [token, setCurrUser]);
+  }, [token, setToken, setCurrUser]);
 
   function logout() {
     setToken(null);
     setCurrUser(null);
+    localStorage.clear();
+    redirect('/');
+  }
+
+  function handleUpdate(user) {
+    user.token = token.userToken;
+    localStorage.setItem('user', user);
+    setCurrUser(user);
   }
 
   return (
@@ -51,7 +65,7 @@ function App() {
             <Route path="/companies/:handle" element={<CompanyDetailsPage />} />
             <Route exact path="/jobs" element={<JobsPage />} />
             <Route path="/jobs/:id" element={<JobDetailsPage />} />
-            <Route exact path="/profile" element={<ProfilePage />} />
+            <Route exact path="/profile" element={<ProfilePage updateUser={handleUpdate} />} />
             <Route exact path="/login" element={<UserFormPage type="login" login={setToken} />} />
             <Route exact path="/signup" element={<UserFormPage type="signup" signup={setToken} />} />
             <Route path="*" element={<NoMatchPage />} />

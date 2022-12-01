@@ -13,7 +13,7 @@ function NavBar({ logout }) {
 
     function handleLogout() {
         logout();
-        redirect('/');
+        return redirect('/');
     }
 
     return (

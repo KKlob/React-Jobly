@@ -3,7 +3,7 @@ import Card from 'react-bootstrap/Card';
 import { Link } from 'react-router-dom';
 import Stack from 'react-bootstrap/Stack';
 
-function JobCard({ data }) {
+function JobCard({ data, noDetails = false }) {
 
     function handleApply(evt) {
         evt.preventDefault();
@@ -30,7 +30,7 @@ function JobCard({ data }) {
             <Card.Text>{formatSalary(data.salary)} Yearly Salary</Card.Text>
             <Card.Text>{formatEquity(data.equity)} Equity Share</Card.Text>
             <Stack direction="horizontal" gap={3} className="justify-content-center">
-                <Card.Link className="text-white" as={Link} to={`/jobs/${data.id}`}>Job Details</Card.Link>
+                {noDetails ? null : <Card.Link className="text-white" as={Link} to={`/jobs/${data.id}`}>Job Details</Card.Link>}
                 <Card.Link className="text-white" as={Link} onClick={handleApply}>Apply!</Card.Link>
             </Stack>
         </Card>

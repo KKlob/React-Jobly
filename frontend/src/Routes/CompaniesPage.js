@@ -16,7 +16,7 @@ function CompaniesPage() {
 
     const [companies, setCompanies] = useState(null);
 
-    const user = useContext(UserContext);
+    const { currUser } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -26,9 +26,9 @@ function CompaniesPage() {
             const data = await JoblyApi.getAllCompanies();
             setCompanies(data);
         }
-        if (!user) navigate('/signup');
+        if (!currUser) navigate('/signup');
         if (!companies) getCompanies();
-    }, [user, companies, navigate, setCompanies]);
+    }, [currUser, companies, navigate, setCompanies]);
 
     /** Request all companies with searchTerm. If searchTerm is null do nothing */
     useEffect(() => {
@@ -45,7 +45,7 @@ function CompaniesPage() {
         setCompanies(null);
     }
 
-    if (user) return (
+    if (currUser) return (
         <Container id="companies_page" className="mt-5">
             <Row className="justify-content-center mb-3">
                 <Col className="text-center">

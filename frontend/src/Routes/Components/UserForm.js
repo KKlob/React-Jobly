@@ -7,17 +7,17 @@ import Alert from 'react-bootstrap/Alert';
 
 function UserForm({ updateUser }) {
 
-    const user = useContext(UserContext);
+    const { currUser } = useContext(UserContext);
 
     const [data, setData] = useState(null);
     const [alert, setAlert] = useState(null);
     const [show, setShow] = useState(false);
 
-    const [formData, setFormData] = useState({ firstName: user.firstName, lastName: user.lastName, email: user.email });
+    const [formData, setFormData] = useState({ firstName: currUser.firstName, lastName: currUser.lastName, email: currUser.email });
 
     useEffect(() => {
         async function pushUpdate() {
-            const updatedUser = await JoblyApi.updateUser(data, user.username);
+            const updatedUser = await JoblyApi.updateUser(data, currUser.username);
             updateUser(updatedUser);
             setAlert({ variant: "success", message: "Updates have been saved!" });
             setShow(true);
@@ -25,7 +25,7 @@ function UserForm({ updateUser }) {
         }
         if (data) pushUpdate();
 
-    }, [data, user, setAlert, setShow, setData, updateUser]);
+    }, [data, currUser, setAlert, setShow, setData, updateUser]);
 
     function handleChange(evt) {
         setFormData({ ...formData, [evt.target.id]: evt.target.value });

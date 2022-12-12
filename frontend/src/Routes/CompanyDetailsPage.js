@@ -16,7 +16,7 @@ function CompanyDetailsPage() {
 
     const [companyData, setCompanyData] = useState(null);
 
-    const user = useContext(UserContext);
+    const { currUser } = useContext(UserContext);
 
     const navigate = useNavigate();
 
@@ -33,11 +33,11 @@ function CompanyDetailsPage() {
             company.jobs = jobs;
             setCompanyData(company);
         }
-        if (!user) navigate('/signup');
+        if (!currUser) navigate('/signup');
         if (!companyData) fetchCompanyData();
-    }, [companyData, handle, user, navigate, setCompanyData]);
+    }, [companyData, handle, currUser, navigate, setCompanyData]);
 
-    if (user) return (
+    if (currUser) return (
         <Container id="company_details_page" className="mt-5">
             <Row className="justify-content-center">
                 <Col xs={10} className="text-center">
@@ -46,7 +46,9 @@ function CompanyDetailsPage() {
             </Row>
             <Row xs={1} id="company_jobs" className="justify-content-center text-center">
                 <h2 className="text-decoration-underline">Available Jobs</h2>
-                {companyData ? companyData.jobs.map(job => <Col xs={8} key={uuid()}><JobCard data={job} /></Col>) : null}
+                {companyData ? companyData.jobs.map(job => <Col xs={8} key={uuid()}>
+                    {currUser.applications.includes(job.id) ? <JobCard data={job} applied={true} /> : <JobCard data={job} />}
+                </Col>) : null}
             </Row>
         </Container>
     )

@@ -12,13 +12,13 @@ function JobsPage() {
 
     const [jobs, setJobs] = useState(null);
 
-    const user = useContext(UserContext);
+    const { currUser } = useContext(UserContext);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user) navigate('/signup');
-    }, [user, navigate]);
+        if (!currUser) navigate('/signup');
+    }, [currUser, navigate]);
 
     useEffect(() => {
         async function getAllJobs() {
@@ -28,7 +28,7 @@ function JobsPage() {
         if (!jobs) getAllJobs();
     }, [jobs, setJobs]);
 
-    if (user) return (
+    if (currUser && jobs) return (
         <Container id="jobs_page" className="mt-5">
             <Row className="justify-content-center">
                 <Col className="text-center">
@@ -37,7 +37,12 @@ function JobsPage() {
             </Row>
             <Row className="justify-content-center mt-3">
                 <Col xs={6}>
-                    {jobs ? jobs.map(job => <JobCard key={uuid()} data={job} />) : null}
+                    {jobs ? jobs.map((job) => {
+                        if (currUser.applications.includes(job.id)) { return (<JobCard key={uuid()} data={job} applied={true} />) }
+                        else {
+                            return (<JobCard key={uuid()} data={job} />)
+                        }
+                    }) : null}
                 </Col>
             </Row>
         </Container>

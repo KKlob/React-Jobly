@@ -8,19 +8,19 @@ import { useNavigate } from 'react-router-dom';
 
 function ProfilePage({ updateUser }) {
 
-    const user = useContext(UserContext);
+    const { currUser } = useContext(UserContext);
 
     const navigate = useNavigate();
 
     useEffect(() => {
-        if (!user) navigate('/');
-    }, [user, navigate])
+        if (!currUser) navigate('/');
+    }, [currUser, navigate])
 
-    if (user) return (
+    if (currUser) return (
         <Container id="user_profile_page">
             <Row className="justify-content-center">
                 <Col className="text-center">
-                    <h1>Username: {user.username}</h1>
+                    <h1>Username: {currUser.username}</h1>
                 </Col>
             </Row>
             <Row className="justify-content-center">

@@ -18,8 +18,6 @@ function App() {
 
   const [currUser, setCurrUser] = useState(null);
 
-  if (currUser) console.log(currUser);
-
   useEffect(() => {
     async function getUser() {
       JoblyApi.token = token.userToken;
@@ -28,16 +26,11 @@ function App() {
         user.token = token.userToken;
         localStorage.setItem('user', user)
         setCurrUser(user);
-
       } catch (error) {
         console.log(error);
       }
     }
-
     if (token) getUser();
-    if (!token && localStorage.getItem('user')) {
-      setToken(localStorage.getItem('user').token);
-    }
 
   }, [token, setToken, setCurrUser]);
 
@@ -57,7 +50,7 @@ function App() {
   return (
     <div className="App">
       <BrowserRouter>
-        <UserContext.Provider value={currUser}>
+        <UserContext.Provider value={{ currUser, setCurrUser }}>
           <NavBar logout={logout} />
           <Routes>
             <Route exact path="/" element={<Homepage />} />

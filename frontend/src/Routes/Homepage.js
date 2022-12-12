@@ -9,15 +9,15 @@ import { UserContext } from '../ContextCreator';
 
 function Homepage() {
 
-    const user = useContext(UserContext);
+    const { currUser } = useContext(UserContext);
 
-    if (user) {
+    if (currUser) {
         return (
             <Container id="homepage" className="mt-5">
                 <Row>
                     <Col>
                         <Card className="text-center border border-0">
-                            <Card.Title className="fs-1">Welcome back to Jobly, {user.username}!</Card.Title>
+                            <Card.Title className="fs-1">Welcome back to Jobly, {currUser.username}!</Card.Title>
                             <Card.Text>Ready to continue practicing your application skills?</Card.Text>
                         </Card>
                     </Col>

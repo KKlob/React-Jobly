@@ -49,7 +49,7 @@ function App() {
 
   return (
     <div className="App">
-      <BrowserRouter basename={process.env.PUBLIC_URL}>
+      <BrowserRouter>
         <UserContext.Provider value={{ currUser, setCurrUser }}>
           <NavBar logout={logout} />
           <Routes>
